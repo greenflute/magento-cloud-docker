@@ -81,7 +81,7 @@ class ServiceFactory
         ServiceInterface::SERVICE_NGINX => self::SERVICE_NGINX_CONFIG,
         ServiceInterface::SERVICE_VARNISH => [
             'image' => 'magento/magento-cloud-docker-varnish',
-            'version' => '6.2',
+            'version' => '6.6',
             'pattern' => self::PATTERN_VERSIONED,
         ],
         ServiceInterface::SERVICE_TLS => self::SERVICE_NGINX_CONFIG,
@@ -107,6 +107,18 @@ class ServiceFactory
         ],
         ServiceInterface::SERVICE_ELASTICSEARCH => [
             'image' => 'magento/magento-cloud-docker-elasticsearch',
+            'pattern' => self::PATTERN_VERSIONED,
+            'config' => [
+                'ulimits' => [
+                    'memlock' => [
+                        'soft' => -1,
+                        'hard' => -1
+                    ]
+                ]
+            ]
+        ],
+        ServiceInterface::SERVICE_OPENSEARCH => [
+            'image' => 'magento/magento-cloud-docker-opensearch',
             'pattern' => self::PATTERN_VERSIONED,
             'config' => [
                 'ulimits' => [
@@ -151,9 +163,9 @@ class ServiceFactory
             'pattern' => self::PATTERN_STD
         ],
         ServiceInterface::SERVICE_MAILHOG => [
-            'image' => 'mailhog/mailhog',
-            'version' => 'latest',
-            'pattern' => self::PATTERN_STD,
+            'image' => 'magento/magento-cloud-docker-mailhog',
+            'version' => '1.0',
+            'pattern' => self::PATTERN_VERSIONED,
         ]
     ];
 

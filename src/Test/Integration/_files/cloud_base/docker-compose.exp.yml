@@ -63,6 +63,24 @@ services:
       magento:
         aliases:
           - elasticsearch.magento2.docker
+  opensearch:
+    hostname: opensearch.magento2.docker
+    image: 'magento/magento-cloud-docker-opensearch:1.1-1.2.0'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    environment:
+      - cluster.name=docker-cluster
+      - discovery.type=single-node
+      - discovery.seed_hosts=opensearch
+      - bootstrap.memory_lock=true
+      - DISABLE_SECURITY_PLUGIN=true
+      - 'OS_PLUGINS=plugin_3 plugin_4'
+    networks:
+      magento:
+        aliases:
+          - opensearch.magento2.docker
   fpm:
     hostname: fpm.magento2.docker
     image: 'magento/magento-cloud-docker-php:7.3-fpm-1.2.0'
@@ -109,7 +127,7 @@ services:
         condition: service_started
   varnish:
     hostname: varnish.magento2.docker
-    image: 'magento/magento-cloud-docker-varnish:6.2-1.2.0'
+    image: 'magento/magento-cloud-docker-varnish:6.6-1.2.0'
     networks:
       magento:
         aliases:
@@ -163,6 +181,8 @@ services:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
+      opensearch:
+        condition: service_healthy
   deploy:
     hostname: deploy.magento2.docker
     image: 'magento/magento-cloud-docker-php:7.3-cli-1.2.0'
@@ -187,9 +207,11 @@ services:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
+      opensearch:
+        condition: service_healthy
   mailhog:
     hostname: mailhog.magento2.docker
-    image: 'mailhog/mailhog:latest'
+    image: 'magento/magento-cloud-docker-mailhog:1.0-1.2.0'
     ports:
       - '1025:1025'
       - '8025:8025'

@@ -82,6 +82,24 @@ class BuildComposeTest extends TestCase
                     [CliSource::OPTION_WITH_MARIADB_CONF, true]
                 ]
             ],
+            'cloud-base-os-2-cli' => [
+                __DIR__ . '/_files/cloud_base_os_2_cli',
+                [
+                    [CliSource::OPTION_MODE, BuilderFactory::BUILDER_PRODUCTION],
+                    [CliSource::OPTION_WITH_ENTRYPOINT, true],
+                    [CliSource::OPTION_WITH_MARIADB_CONF, true],
+                    [CliSource::OPTION_OS, '2'],
+                ]
+            ],
+            'cloud-base-os-2.3-cli' => [
+                __DIR__ . '/_files/cloud_base_os_2.3_cli',
+                [
+                    [CliSource::OPTION_MODE, BuilderFactory::BUILDER_PRODUCTION],
+                    [CliSource::OPTION_WITH_ENTRYPOINT, true],
+                    [CliSource::OPTION_WITH_MARIADB_CONF, true],
+                    [CliSource::OPTION_OS, '2.3'],
+                ]
+            ],
             'custom_registry' => [
                 __DIR__ . '/_files/custom_registry',
                 [
@@ -115,7 +133,9 @@ class BuildComposeTest extends TestCase
                     [CliSource::OPTION_WITH_CRON, true],
                     [CliSource::OPTION_WITH_XDEBUG, true],
                     [CliSource::OPTION_ES, '5.2'],
+                    [CliSource::OPTION_OS, '1.2'],
                     [CliSource::OPTION_NO_ES, true],
+                    [CliSource::OPTION_NO_OS, true],
                     [CliSource::OPTION_DB_INCREMENT_INCREMENT, 3],
                     [CliSource::OPTION_DB_INCREMENT_OFFSET, 2],
                     [CliSource::OPTION_WITH_ENTRYPOINT, true],
@@ -135,8 +155,10 @@ class BuildComposeTest extends TestCase
                     [CliSource::OPTION_WITH_CRON, true],
                     [CliSource::OPTION_WITH_ZOOKEEPER, true],
                     [CliSource::OPTION_WITH_XDEBUG, true],
-                    [CliSource::OPTION_ES, '5.2'],
+                    [CliSource::OPTION_ES, '6.5'],
+                    [CliSource::OPTION_OS, '1.2'],
                     [CliSource::OPTION_NO_ES, true],
+                    [CliSource::OPTION_NO_OS, true],
                     [CliSource::OPTION_DB_INCREMENT_INCREMENT, 3],
                     [CliSource::OPTION_DB_INCREMENT_OFFSET, 2],
                     [CliSource::OPTION_WITH_ENTRYPOINT, true],

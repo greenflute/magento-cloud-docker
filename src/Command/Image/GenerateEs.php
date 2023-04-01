@@ -55,6 +55,10 @@ class GenerateEs extends Command
             'real-version' => '7.9.3',
             'single-node' => true,
         ],
+        '7.10' => [
+            'real-version' => '7.10.2',
+            'single-node' => true,
+        ],
         '7.11' => [
             'real-version' => '7.11.2',
             'single-node' => true,
@@ -103,6 +107,14 @@ class GenerateEs extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+// phpcs:disable
+        $fixRepo = <<<FIX
+sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-* && \
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=https://mirror.rackspace.com\/centos-vault|g' /etc/yum.repos.d/CentOS-Linux-* && \
+    
+FIX;
+// phpcs:enable
+
         foreach ($this->versionMap as $version => $versionData) {
             $destination = $this->directoryList->getImagesRoot() . '/elasticsearch/' . $version;
             $dataDir = $this->directoryList->getImagesRoot() . '/elasticsearch/es/';
@@ -120,6 +132,7 @@ class GenerateEs extends Command
                     [
                         '{%version%}' => $versionData['real-version'],
                         '{%single_node%}' => $versionData['single-node'] ? self::SINGLE_NODE : '',
+                        '{%fix_repos%}' => in_array($version, ['7.10', '7.11']) ? $fixRepo : '',
                     ]
                 )
             );

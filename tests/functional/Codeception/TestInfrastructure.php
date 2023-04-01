@@ -191,6 +191,13 @@ class TestInfrastructure extends BaseModule
             ],
         ];
 
+        foreach ((array)$this->_getConfig('additional_creds') as $creds) {
+            $auth['http-basic'][$creds['host']] = [
+                'username' => $creds['username'],
+                'password' => $creds['password']
+            ];
+        }
+
         $githubToken = $this->_getConfig('composer_github_token');
         if ($githubToken) {
             $auth['github-oauth'] = [
@@ -413,6 +420,13 @@ class TestInfrastructure extends BaseModule
      */
     private function addGitRepoToComposer(string $name): bool
     {
+        $repoUrl = $this->_getConfig($name . '_repo');
+
+        // Do not add repo if url is empty
+        if (empty($repoUrl)) {
+            return true;
+        }
+
         return $this->taskComposerConfig()
             ->set('repositories.' . $name, json_encode(
                 [
